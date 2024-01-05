@@ -27,7 +27,7 @@ const AuthModal = () =>{
         router.refresh();
         onClose();
     }
-    },[session , router , onclose])
+    },[session , router , onClose])
 
 
 
