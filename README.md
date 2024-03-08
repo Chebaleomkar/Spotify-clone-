@@ -4,7 +4,7 @@ A Spotify clone built with Next.js, Supabase, React Hook Form, TypeScript, Zusta
 
 ## demo
 
-Production App  : https://spotify-clone-x7vq.vercel.app
+Production App  :https://omkar-chebale-spotify-clone.vercel.app/
 
 - email  : user@gmail.com
 - password : pass@123
