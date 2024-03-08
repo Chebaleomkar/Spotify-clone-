@@ -3,6 +3,9 @@
 A Spotify clone built with Next.js, Supabase, React Hook Form, TypeScript, Zustand, Tailwind UI, ESLint, and PostgreSQL.
 
 ## demo
+
+Production App  : https://spotify-clone-x7vq.vercel.app
+
 - email  : user@gmail.com
 - password : pass@123
 
