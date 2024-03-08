@@ -40,8 +40,6 @@ Enjoy Free Music
 - Inspired by the Spotify UI.
 - Thanks to the open-source community for the amazing tools and libraries.
 
-## License
 
-This project is licensed under the [MIT License](LICENSE). Feel free to use and modify the code as needed.
 
 
