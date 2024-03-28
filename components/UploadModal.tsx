@@ -16,7 +16,6 @@ import Button from './Button';
 
 const UploadModal = () => {
   const [isLoading, setIsLoading] = useState(false);
-
   const uploadModal = useUploadModal();
   const supabaseClient = useSupabaseClient();
   const { user } = useUser();
@@ -105,7 +104,7 @@ const UploadModal = () => {
       if (supabaseError) {
         return toast.error(supabaseError.message);
       }
-      
+
       router.refresh();
       setIsLoading(false);
       toast.success('Song created!');
@@ -125,22 +124,26 @@ const UploadModal = () => {
       isOpen={uploadModal.isOpen}
       onchange={onChange}
     >
+
       <form 
         onSubmit={handleSubmit(onSubmit)} 
         className="flex flex-col gap-y-4"
       >
+
         <Input
           id="title"
           disabled={isLoading}
           {...register('title', { required: true })}
           placeholder="Song title"
         />
+
         <Input
           id="author"
           disabled={isLoading}
           {...register('author', { required: true })}
           placeholder="Song author"
         />
+
         <div>
           <div className="pb-1">
             Select a song file
@@ -153,6 +156,7 @@ const UploadModal = () => {
             id="song"
             {...register('song', { required: true })}
           />
+
         </div>
         <div>
           <div className="pb-1">

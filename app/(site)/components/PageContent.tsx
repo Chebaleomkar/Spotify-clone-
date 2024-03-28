@@ -15,7 +15,7 @@ const PagaContent: React.FC<PagaContentProps> = ({songs}) => {
   if(songs.length === 0){
     return(
       <div className="mt-4 text text-neutral-400 ">
-        No songs availabel
+        No songs available
       </div>
     )
   }
