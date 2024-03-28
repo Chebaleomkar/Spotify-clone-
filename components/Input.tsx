@@ -1,17 +1,17 @@
 import { forwardRef } from "react";
-import { twMerge } from "tailwind-merge"
+import { twMerge } from "tailwind-merge";
+import { Input } from "../components/ui/input"; 
 
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
 
-const Input = forwardRef<HTMLInputElement, InputProps>(({
+const SInput = forwardRef<HTMLInputElement, InputProps>(({
   className,
   type,
   disabled,
   ...props
 }, ref) => {
   return (
-    <input
+    <Input
       type={type}
       className={twMerge(
         `
@@ -41,9 +41,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
       ref={ref}
       {...props}
     />
-  )
+  );
 });
 
-Input.displayName = "Input";
+SInput.displayName = "Input"; 
 
-export default Input
+export default SInput;
