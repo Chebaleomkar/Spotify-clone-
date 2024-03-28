@@ -28,7 +28,7 @@ const Library: React.FC<LibraryProps> = ({songs}) =>{
            return authModal.onOpen();
         }
 
-        //TODO : Check for subscription
+       
 
         return uploadModal.onOpen();
     }
@@ -41,7 +41,7 @@ const Library: React.FC<LibraryProps> = ({songs}) =>{
                      
                      <TbPlaylist className="text-neutral-400" size={26}  />
                      <p className='text-neutral-400 font-medium text-md ' >
-                          Your Library
+                            Your Library
                      </p>
 
                 </div>

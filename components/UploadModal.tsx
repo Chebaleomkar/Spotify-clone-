@@ -6,24 +6,46 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react';
 import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-
+import {z , ZodError } from 'zod'
 import useUploadModal from '@/hooks/useUploadModal';
 import { useUser } from "@/hooks/useUser";
 
 import Modal from './Modal';
 import Input from './Input';
-import Button from './Button';
+import SButton from './Button';
+
+const schema = z.object({
+  author: z.string().nonempty('Author is required').min(3, 'Author must be at least 3 characters').max(10, 'Author cannot exceed 10 characters'),
+  title: z.string().nonempty('Author is required').min(3, 'Title must be at least 3 characters').max(15, 'Title cannot exceed 15 characters'),
+  song: z
+    .string()
+    .refine((value) => value.endsWith('.mp3'), {
+      message: 'Invalid song file format',
+      path: ['song'],
+    }),
+  image: z
+    .string()
+    .refine((value) => value.endsWith('.jpg') || value.endsWith('.png') || value.endsWith('.jpeg'), {
+      message: 'Invalid image file format',
+      path: ['image'],
+    }),
+});
+
+
+
 
 const UploadModal = () => {
+  const [validationErrors, setValidationErrors] = useState<ZodError | null >(null);
   const [isLoading, setIsLoading] = useState(false);
   const uploadModal = useUploadModal();
   const supabaseClient = useSupabaseClient();
   const { user } = useUser();
   const router = useRouter();
-
+  
   const {
     register,
     handleSubmit,
+    getValues , 
     reset,
   } = useForm<FieldValues>({
     defaultValues: {
@@ -40,10 +62,18 @@ const UploadModal = () => {
       uploadModal.onClose();
     }
   }
-
+  
   const onSubmit: SubmitHandler<FieldValues> = async (values) => {
     try {
       setIsLoading(true);
+      var validationResult = schema.safeParse(values);
+     
+      if (!validationResult.success) {
+        setValidationErrors(validationResult.error.errors); 
+        toast.error('Validation error occurred');
+        setIsLoading(false);
+        return;
+      }
       
       const imageFile = values.image?.[0];
       const songFile = values.song?.[0];
@@ -115,6 +145,7 @@ const UploadModal = () => {
     } finally {
       setIsLoading(false);
     }
+   
   }
 
   return (
@@ -129,21 +160,35 @@ const UploadModal = () => {
         onSubmit={handleSubmit(onSubmit)} 
         className="flex flex-col gap-y-4"
       >
+ <div className="flex flex-col">
+    <label htmlFor="title" className="pb-1">Song Title</label>
+    <Input
+      id="title"
+      disabled={isLoading}
+      {...register('title', { required: true })}
+      placeholder="Song title"
+    />
+    {validationErrors && validationErrors.find(error => error.path[0] === 'title') && (
+    <span className="text-red-500 text-xs mt-1">
+      {validationErrors.find(error => error.path[0] === 'title').message}
+    </span>
+  )}
+  </div>
 
-        <Input
-          id="title"
-          disabled={isLoading}
-          {...register('title', { required: true })}
-          placeholder="Song title"
-        />
-
+ <div className="flex flex-col">
+    <label htmlFor="title" className="pb-1">Song Author</label>
         <Input
           id="author"
           disabled={isLoading}
           {...register('author', { required: true })}
           placeholder="Song author"
         />
-
+         {validationErrors && validationErrors.find(error => error.path[0] === 'author') && (
+    <span className="text-red-500 text-xs mt-1">
+      {validationErrors.find(error => error.path[0] === 'author')?.message}
+    </span>
+  )}
+</div>
         <div>
           <div className="pb-1">
             Select a song file
@@ -156,6 +201,11 @@ const UploadModal = () => {
             id="song"
             {...register('song', { required: true })}
           />
+          {validationErrors && validationErrors.find(error => error.path[0] === 'song') && (
+    <span className="text-red-500 text-xs mt-1">
+      {validationErrors.find(error => error.path[0] === 'song').message}
+    </span>
+  )}
 
         </div>
         <div>
@@ -170,10 +220,15 @@ const UploadModal = () => {
             id="image"
             {...register('image', { required: true })}
           />
+           {validationErrors && validationErrors.find(error => error.path[0] === 'image') && (
+    <span className="text-red-500 text-xs mt-1">
+      {validationErrors.find(error => error.path[0] === 'image').message}
+    </span>
+  )}
         </div>
-        <Button disabled={isLoading} type="submit">
+        <SButton disabled={isLoading} type="submit">
           Create
-        </Button>
+        </SButton>
       </form>
     </Modal>
   );
