@@ -1,5 +1,7 @@
+
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
+
 import "./globals.css";
 import Sidebar from '@/components/Sidebar'
 import SupbaseProvider from "@/providers/SupabaseProvider";
@@ -26,6 +28,8 @@ export default async function RootLayout({
 }) {
 
   const userSongs = await getSongsByUserId();
+
+
 
   return (
     <html lang="en">

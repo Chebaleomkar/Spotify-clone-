@@ -5,6 +5,8 @@ import MediaItem from "@/components/MediaItem"
 import useOnPlay from "@/hooks/useOnPLay"
 import { useUser } from "@/hooks/useUser"
 import { Song } from "@/types"
+
+import {regSw , subscribe  } from '../../../helper'
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 
@@ -34,8 +36,20 @@ const LikedContent:React.FC<LikedContentProps> = ({songs}) => {
         )
     }
 
+    async function registerAndSubscribe() {
+        try {
+            const serviceWorkerReg = await regSw();
+            await subscribe(serviceWorkerReg);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+  
+    
+
   return (
     <div className="flex flex-col gap-y-2 w-full p-6 ">
+          <span onClick={registerAndSubscribe} className="text-white cursor-pointer">Register and Subscribe</span>
         {
             songs.map((song)=>(
                 <div key={song.id} className="flex items-center gap-x-4 w-full " >
