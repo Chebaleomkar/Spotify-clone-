@@ -3,11 +3,12 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import webPush from 'web-push'; 
 
-export default async function POST(req: NextApiRequest, res: NextApiResponse) {
-
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method === 'POST') {
     try {
-      const { body } = req;
+      const { body } = req; // Destructure the body from the request
 
+      // Assuming the body contains the subscription data
       const newSubscription = body;
 
       const options = {
@@ -31,10 +32,10 @@ export default async function POST(req: NextApiRequest, res: NextApiResponse) {
       return res.status(200).end();
       
     } catch (error) {
-        
       console.error(error);
-       return res.status(500).end();
+      return res.status(500).end();
     }
-
- 
+  } else {
+    return res.status(405).end(); // Method Not Allowed
+  }
 }
